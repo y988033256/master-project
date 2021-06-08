@@ -6,33 +6,44 @@ using UnityEngine;
 public class EnterVehicle : MonoBehaviour
 {
     public bool inVehicle = false;
+    public  bool TriggerRdy = true;
     CarController vehicleScript;
-    public GameObject guiObj;
+    public GameObject PressF;
     GameObject Player;
+    GameObject vehicalecamera;
+    public GameObject seat;
 
+
+    public float timerCountDown = 1.5f;
 
     void Start()
     {
         vehicleScript = GetComponent<CarController>();
-        Player = GameObject.FindWithTag("Player");
-        guiObj.SetActive(false);
+        Player = GameObject.Find("Player");
+        vehicalecamera = GameObject.Find("vehicalecamera");
+        PressF.SetActive(false);
+        //PressG.SetActive(false);
+        vehicalecamera.SetActive(false);
     }
 
     // Update is called once per frame
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Player" && inVehicle == false)
+
+        if (other.gameObject.tag == "Player" && inVehicle == false && TriggerRdy == true)
         {
-           
-            guiObj.SetActive(true);
+            PressF.SetActive(true);
+            Debug.Log("jian ce daole ");
             if (Input.GetKey(KeyCode.F))
             {
-                guiObj.SetActive(false);
-                Player.transform.parent = gameObject.transform;
-                vehicleScript.enabled = true;
                 Player.SetActive(false);
+                PressF.SetActive(false);
+                //PressG.SetActive(true);
+                Player.transform.parent = seat.transform;
+                vehicleScript.enabled = true;          
                 inVehicle = true;
-                Debug.Log("shang che");
+                vehicalecamera.SetActive(true);
+                TriggerRdy = true;
             }
         }
     }
@@ -40,17 +51,52 @@ public class EnterVehicle : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            guiObj.SetActive(false);
+            PressF.SetActive(false);
         }
     }
     void Update()
     {
-        if (inVehicle == true && Input.GetKey(KeyCode.F))
+        if (TriggerRdy == true)
         {
+
+            if (timerCountDown > 0)
+            {
+                timerCountDown -= Time.deltaTime;
+            }
+            else             
+            {
+                timerCountDown = 1.5f;
+                TriggerRdy = false;
+               // inVehicle = false;
+            }
+        }
+        if (TriggerRdy == false)
+        {
+            if (timerCountDown > 0)
+            {
+                timerCountDown -= Time.deltaTime;
+            }
+            else
+            {
+                timerCountDown = 1.5f;
+                TriggerRdy = true;              
+            }
+        }
+        if (inVehicle == true)
+        {
+            PressF.SetActive(true);
+        }
+
+        if (inVehicle == true && Input.GetKey(KeyCode.F) && TriggerRdy == false)
+        {
+            PressF.SetActive(false);
             vehicleScript.enabled = false;
+            vehicalecamera.SetActive(false);
             Player.SetActive(true);
             Player.transform.parent = null;
             inVehicle = false;
+          
         }
     }
+
 }

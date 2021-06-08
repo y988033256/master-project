@@ -13,6 +13,8 @@ public class MyDoorController : MonoBehaviour
 
     [SerializeField] private int waitTimer = 1;
     [SerializeField] private bool pauseInteraction = false;
+    public float timer;
+
 
     private IEnumerator PauseDoorInteraction()
     {
@@ -23,12 +25,13 @@ public class MyDoorController : MonoBehaviour
 
     public void PlayAnimation()
     {
-        if (!doorOpen && !pauseInteraction)
+        if (!doorOpen && !pauseInteraction && GameObject.Find("Spawn point").GetComponent<Spawner>().itemarrivered == true)
         {
             Debug.Log("men kai le ");
             doorAnim.Play(openAnimationName, 0, 0.0f);
             doorOpen = true;
             StartCoroutine(PauseDoorInteraction());
+           
         }
         else if (doorOpen && !pauseInteraction)
         {
@@ -36,6 +39,23 @@ public class MyDoorController : MonoBehaviour
             doorAnim.Play(closeAnimationName, 0, 0.0f);
             doorOpen = false;
             StartCoroutine(PauseDoorInteraction());
+        }
+    }
+    public void Update()
+    {
+        if (doorOpen)
+        {         
+            if (GameObject.Find("Spawn point").GetComponent<Spawner>().currentTime < 5)
+            {
+                if (GameObject.Find("Spawn point").GetComponent<Spawner>().doorcanclose == true)
+                {
+                    doorAnim.Play(closeAnimationName, 0, 0.0f);
+                    doorOpen = false;
+                    StartCoroutine(PauseDoorInteraction());                    
+                    GameObject.Find("Spawn point").GetComponent<Spawner>().itemarrivered = false;
+                }
+               
+            }
         }
     }
 }

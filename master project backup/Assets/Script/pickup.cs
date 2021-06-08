@@ -5,7 +5,8 @@ using UnityEngine;
 public class pickup : MonoBehaviour
 {
     public Transform Objectholder;
-
+  
+    //public float lockPos;
     void OnMouseDown()
     {
         RaycastHit hit;
@@ -14,30 +15,47 @@ public class pickup : MonoBehaviour
         {
             if (hit.transform != null)
             {
+                //transform.localScale = transform.localScale / 2;
                 GetComponent<BoxCollider>().enabled = false;
                 GetComponent<Rigidbody>().useGravity = false;
                 GetComponent<Rigidbody>().isKinematic = true;
-                this.transform.position = Objectholder.position;
                 this.transform.parent = GameObject.Find("Objectholder").transform;
+                this.transform.position = Objectholder.position; 
+              
+            
             }
         }
        
     }
     void OnMouseUp()
     {
-        this.transform.parent = null;
+       // transform.localScale = transform.localScale * 2;
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<Rigidbody>().useGravity = true;
-        GetComponent<Rigidbody>().isKinematic = false;
-    }
-
-
+        GetComponent<Rigidbody>().isKinematic = false;   
+        this.transform.parent = null;      
+    }    
 }
 
 
 
 
+//    if (pickObj.GetComponent<Rigidbody>())
+//    {
+//        Rigidbody objRig = pickObj.GetComponent<Rigidbody>();
+//        objRig.useGravity = false;
+//        objRig.drag = 10;
 
+//        objRig.transform.parent = holdParent;
+//        heldObj = pickObj;
+//        Debug.Log("na dong xi");
+//    }
+//}
+//void DropObject()
+//{
+//    Rigidbody heldRig = heldObj.GetComponent<Rigidbody>();
+//    heldRig.useGravity = true;
+//    heldRig.drag = 1;
 //public float pickUpRange = 500;
 //public Transform holdParent;
 //public float moveforce = 100;
@@ -79,22 +97,7 @@ public class pickup : MonoBehaviour
 //}
 //void PickupObject(GameObject pickObj)
 //{
-//    if (pickObj.GetComponent<Rigidbody>())
-//    {
-//        Rigidbody objRig = pickObj.GetComponent<Rigidbody>();
-//        objRig.useGravity = false;
-//        objRig.drag = 10;
 
-//        objRig.transform.parent = holdParent;
-//        heldObj = pickObj;
-//        Debug.Log("na dong xi");
-//    }
-//}
-//void DropObject()
-//{
-//    Rigidbody heldRig = heldObj.GetComponent<Rigidbody>();
-//    heldRig.useGravity = true;
-//    heldRig.drag = 1;
 
 //    heldObj.transform.parent = null;
 //    heldObj = null;

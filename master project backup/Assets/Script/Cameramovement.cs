@@ -6,7 +6,7 @@ public class Cameramovement : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float mouseSensitivity = 100f;
+    public float mouseSensitivity = 50f;
     
     public Transform playerBody;
 

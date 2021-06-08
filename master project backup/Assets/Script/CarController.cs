@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    public Vector3 com;
+    public Rigidbody rb;
+
     public const string HORIZONTAL = "Horizontal";
     public const string VERTICAL = "Vertical";
 
@@ -35,7 +38,11 @@ public class CarController : MonoBehaviour
     public float y;
     public float liftrange = 0.8f;
 
-     
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = com;
+    }
     private void FixedUpdate()
     {
         GetInput();
